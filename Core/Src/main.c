@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "sim800c.h"
+#include <string.h>
 
 /* USER CODE END Includes */
 
@@ -45,17 +45,38 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+uint8_t rx_buffer[64];
+uint8_t rx_index = 0;
+uint8_t command_ready = 0;
 
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+static void send_response_to_module(const char *response);
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+  if (huart->Instance == USART1) {
+    uint8_t received_char = rx_buffer[rx_index];
+
+    if (received_char == '\n' || received_char == '\r' || rx_index >= sizeof(rx_buffer) - 1) {
+      if (rx_index > 0) {
+        rx_buffer[rx_index] = '\0';
+        command_ready = 1;
+      }
+      rx_index = 0;
+    }
+    else {
+      rx_buffer[rx_index++] = received_char;
+    }
+    HAL_UART_Receive_IT(&huart1, &rx_buffer[rx_index], 1);
+  }
+}
 
 /* USER CODE END 0 */
 
@@ -90,6 +111,8 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_UART_Receive_IT(&huart1, &rx_buffer[rx_index], 1);
+  send_response_to_module("AT+CNMI=2,2,0,0,0");
 
   /* USER CODE END 2 */
 
@@ -150,6 +173,9 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+static void send_response_to_module(const char *response) {
+  HAL_UART_Transmit(&huart1, (uint8_t*)response, strlen(response), 100);
+}
 
 /* USER CODE END 4 */
 
