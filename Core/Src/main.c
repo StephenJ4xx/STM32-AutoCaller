@@ -47,7 +47,7 @@
 /* USER CODE BEGIN PV */
 uint8_t rx_buffer[64];
 uint8_t rx_index = 0;
-uint8_t command_ready = 0;
+volatile uint8_t command_ready = 0;
 
 /* USER CODE END PV */
 
@@ -175,6 +175,17 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 static void send_response_to_module(const char *response) {
   HAL_UART_Transmit(&huart1, (uint8_t*)response, strlen(response), 100);
+}
+
+/**
+ * @brief Function to get "command_ready" flag state from other files
+ */
+uint8_t get_command_ready_flag(void) {
+  return command_ready;
+}
+
+void clear_command_ready_flag(void) {
+  command_ready = 0;
 }
 
 /* USER CODE END 4 */

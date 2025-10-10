@@ -53,6 +53,8 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+uint8_t get_command_ready_flag(void);
+void clear_command_ready_flag(void);
 
 /* USER CODE END EFP */
 
