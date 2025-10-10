@@ -48,6 +48,7 @@
 uint8_t rx_buffer[64];
 uint8_t rx_index = 0;
 volatile uint8_t command_ready = 0;
+volatile uint8_t sim_ready = 0;
 
 /* USER CODE END PV */
 
@@ -197,6 +198,13 @@ void clear_command_ready_flag(void) {
  */
 const uint8_t* get_rx_buffer(void) {
   return rx_buffer;
+}
+
+/**
+ * @brief Function that allows change sim_ready flag from other files
+ */
+void set_sim_ready_flag(void) {
+  sim_ready = 1;
 }
 
 /* USER CODE END 4 */

@@ -57,6 +57,7 @@ uint8_t get_command_ready_flag(void);
 void clear_command_ready_flag(void);
 void send_response_to_module(const char *response);
 const uint8_t* get_rx_buffer(void);
+void set_sim_ready_flag(void);
 
 /* USER CODE END EFP */
 
