@@ -191,6 +191,14 @@ void clear_command_ready_flag(void) {
   command_ready = 0;
 }
 
+/**
+ *
+ * @brief Function to get "rx_buffer" data from other files
+ */
+const uint8_t* get_rx_buffer(void) {
+  return rx_buffer;
+}
+
 /* USER CODE END 4 */
 
 /**
