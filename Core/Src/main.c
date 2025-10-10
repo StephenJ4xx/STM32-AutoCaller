@@ -25,6 +25,8 @@
 /* USER CODE BEGIN Includes */
 #include <string.h>
 
+#include "sim800.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -112,7 +114,7 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   HAL_UART_Receive_IT(&huart1, &rx_buffer[rx_index], 1);
-  send_response_to_module("AT+CNMI=2,2,0,0,0");
+  sim_module_init();
 
   /* USER CODE END 2 */
 
