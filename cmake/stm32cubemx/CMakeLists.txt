@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 
 project(stm32cubemx)
 add_library(stm32cubemx INTERFACE
-		../../Core/Src/sim800c.c
-		../../Core/Inc/sim800c.h)
+        ../../Core/Src/sim800.c
+        ../../Core/Inc/sim800.h)
 
 # Enable CMake support for ASM and C languages
 enable_language(C ASM)

@@ -7,4 +7,9 @@
 
 #include "main.h"
 
+#define PIN 0000 // Your sim card pin code
+
+uint8_t sim_module_init(void);
+uint8_t wait_for_command_ready(uint32_t timeout);
+
 #endif //AUTOCALLER_SIM800C_H
