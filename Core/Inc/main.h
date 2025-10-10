@@ -55,6 +55,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN EFP */
 uint8_t get_command_ready_flag(void);
 void clear_command_ready_flag(void);
+void send_response_to_module(const char *response);
 
 /* USER CODE END EFP */
 

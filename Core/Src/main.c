@@ -54,7 +54,6 @@ volatile uint8_t command_ready = 0;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-static void send_response_to_module(const char *response);
 
 /* USER CODE END PFP */
 
@@ -173,12 +172,16 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-static void send_response_to_module(const char *response) {
+/**
+ *
+ * @brief Function of sending data via UART to the module
+ */
+void send_response_to_module(const char *response) {
   HAL_UART_Transmit(&huart1, (uint8_t*)response, strlen(response), 100);
 }
 
 /**
- * @brief Function to get "command_ready" flag state from other files
+ * @brief Functions to get "command_ready" flag state from other files
  */
 uint8_t get_command_ready_flag(void) {
   return command_ready;
