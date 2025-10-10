@@ -11,5 +11,6 @@
 
 uint8_t sim_module_init(void);
 uint8_t wait_for_command_ready(uint32_t timeout);
+void error_indicate(uint8_t);
 
 #endif //AUTOCALLER_SIM800C_H

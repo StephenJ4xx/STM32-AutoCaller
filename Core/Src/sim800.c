@@ -23,6 +23,33 @@ uint8_t wait_for_command_ready(uint32_t timeout) {
 
 /**
  *
+ * @brief A separate function for displaying different types of errors
+ */
+void error_indicate(uint8_t error_code) {
+    switch (error_code) {
+        case 1:
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            HAL_Delay(100);
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            HAL_Delay(100);
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            HAL_Delay(100);
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            break;
+        case 2:
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            HAL_Delay(500);
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            break;
+        default:
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            HAL_Delay(100);
+            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+    }
+}
+
+/**
+ *
  * @brief Sim module initialization function
  */
 uint8_t sim_module_init(void) {
@@ -32,13 +59,7 @@ uint8_t sim_module_init(void) {
     send_response_to_module("AT\r\n");
     wait_for_command_ready(1000);
     if (!(get_command_ready_flag() && strcmp((char*)rx_buffer, "OK") == 0)) {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_Delay(100);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_Delay(100);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_Delay(100);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+        error_indicate(1);
         clear_command_ready_flag();
         return 1;
     }
@@ -48,13 +69,7 @@ uint8_t sim_module_init(void) {
     wait_for_command_ready(1000);
     if (get_command_ready_flag()) {
         if (strcmp((char*) rx_buffer, "ERROR") == 0) {
-            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-            HAL_Delay(100);
-            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-            HAL_Delay(100);
-            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-            HAL_Delay(100);
-            HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+            error_indicate(1);
             clear_command_ready_flag();
             return 1;
         }
@@ -63,9 +78,7 @@ uint8_t sim_module_init(void) {
             send_response_to_module(message_container);
             wait_for_command_ready(1000);
             if (!(get_command_ready_flag() && strcmp((char*)rx_buffer, "OK") == 0)) {
-                HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-                HAL_Delay(500);
-                HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+                error_indicate(2);
                 clear_command_ready_flag();
                 return 1;
             }
@@ -81,13 +94,7 @@ uint8_t sim_module_init(void) {
     send_response_to_module("AT+CNMI=2,2,0,0,0\r\n");
     wait_for_command_ready(1000);
     if (!(get_command_ready_flag() && strcmp((char*)rx_buffer, "OK") == 0)) {
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_Delay(100);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_Delay(100);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-        HAL_Delay(100);
-        HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
+        error_indicate(1);
         clear_command_ready_flag();
         return 1;
     }
