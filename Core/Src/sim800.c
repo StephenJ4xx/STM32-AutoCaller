@@ -102,3 +102,5 @@ uint8_t sim_module_init(void) {
 
     return 0;
 }
+
+// TODO: Rework the file to work with the module and create a full-fledged library for processing all AT commands
